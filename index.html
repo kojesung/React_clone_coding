@@ -4,32 +4,37 @@
 <body>
     <div id="root"></div>
 </body>
-<script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
-<script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script type="text/babel">
     const root = document.getElementById("root");
     function App() {
-        const [counter, setCounter] = React.useState(0);
-        const onClick = () => {
-            /*setCounter(counter + 1); 둘은 같은 내용이지만 밑에 방식이 더 안전함(current는 정확히 현재의 값을 다뤄줌,
-                                        여러번 상태를 업데이트 하는 경우 순서가 보장됨)*/
-            setCounter((current) => current + 1)
-            /*vanilla js에서는 counter의 값만 바꾸지 못하고 값 변경 => 전체 렌더링 하는 방식
-                => 값을 바꿀때마다 렌더링 해주는 함수를 넣어줘야된다는 번거로움
-            react에서는 useState를 통해 기본값 설정, 값이 바뀔 때 set변수이름(바꿀 값) 설정해주면
-            값이 바뀜과 동시에 자동 렌더링
-                => + react는 렌더링 전/후 비교해서 값이 바뀌는 부분만 바꿔줌
-            ++++ const는 재할당이 안되지만 바뀌는 이유는 setCounter안에 있는 modifier 함수가 메모리 위치는 그대로,
-                해당 메모리 위치에 있는 값만 바꾸는 것이라(메모리 위치는 그대로라서) 변경이 된다고 함.
-            ++++ setCounter는 변수가 아닌 함수
-            */
-        };
+        const [amout, setAmout] = React.useState(0);
+        const [flipped, setFlipped] = React.useState(false)
+        const [hours, setHours] = React.useState(0);
+        const onChange = (event) => {
+            setAmout(event.target.value)
+        }
+        const reset = () => setAmout(0)
+        const onFlip = () => {
+            reset();
+            setFlipped((current => !current))
+        }
         return (
             <div>
-                <h3>Total click : {counter}</h3>
-                <button onClick={onClick}>click me</button>
-            </div>);
+                <h1 className='hi'>Super Converter</h1>
+                <div>
+                    <label htmlFor='minutes'>Minutes</label>
+                    <input disabled={flipped === true} onChange={onChange} value={flipped ? amout * 60 : amout} id="minutes" placeholder="Minutes" type="number" />
+                </div>
+                <div>
+                    <label htmlFor="hours">Hours</label>
+                    <input disabled={flipped === false} onChange={onChange} value={flipped ? amout : (amout / 60)} id="hours" placeholder="hours" type="number" />
+                </div>
+                <button onClick={reset}>Reset</button>
+                <button onClick={onFlip}>Flip</button>
+            </div>)
     }
     ReactDOM.render(<App />, root);
 
