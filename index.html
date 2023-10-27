@@ -14,7 +14,7 @@
         const [inverted, setInverted] = React.useState(false)
         const [hours, setHours] = React.useState(0);
         const onChange = (event) => {
-            setAmout(event.target.value)
+            setAmount(event.target.value)
         }
         const reset = () => setAmout(0)
         const onInvert = () => {
@@ -41,16 +41,23 @@
         const onChange2 = (event) => {
             setAmount2(event.target.value)
         }
+        const onInvert2 = () => {
+            reset2()
+            setInverted2((current => !current))
+        }
+        const reset2 = () => setAmount2(0)
         return (
             <div>
                 <div>
                     <label htmlFor="Km">Km</label>
-                    <input disabled={inverted2 === true} onChange={onChange2} value={inverted2 ? amount2 * 1.609 : amount2} placeholder="Km" id="Km" />
+                    <input disabled={inverted2 === true} onChange={onChange2} value={inverted2 ? amount2 * 1.609 : amount2} type="number" placeholder="Km" id="Km" />
                 </div>
                 <div>
                     <label htmlFor="Miles">Miles</label>
-                    <input disabled={inverted2 === false} value={inverted2 ? amount2 : (amount2 / 1.609)} placeholder="Miles" id="Miles" />
+                    <input disabled={inverted2 === false} value={inverted2 ? amount2 : (amount2 / 1.609)} type="number" placeholder="Miles" id="Miles" />
                 </div>
+                <button onClick={reset2}>reset</button>
+                <button onClick={onInvert2}>invert</button>
 
             </div>
         )
