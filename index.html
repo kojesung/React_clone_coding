@@ -8,78 +8,25 @@
 <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script type="text/babel">
-    const root = document.getElementById("root");
-    function MinutesToHours() {
-        const [amount, setAmount] = React.useState(0);
-        const [inverted, setInverted] = React.useState(false)
-        const [hours, setHours] = React.useState(0);
-        const onChange = (event) => {
-            setAmount(event.target.value)
-        }
-        const reset = () => setAmout(0)
-        const onInvert = () => {
-            reset();
-            setInverted((current => !current))
-        }
+    function Btn({ text }) {
         return (
-            <div>
-                <div>
-                    <label htmlFor='minutes'>Minutes</label>
-                    <input disabled={inverted === true} onChange={onChange} value={inverted ? amount * 60 : amount} id="minutes" placeholder="Minutes" type="number" />
-                </div>
-                <div>
-                    <label htmlFor="hours">Hours</label>
-                    <input disabled={inverted === false} onChange={onChange} value={inverted ? amount : (amount / 60)} id="hours" placeholder="hours" type="number" />
-                </div>
-                <button onClick={reset}>Reset</button>
-                <button onClick={onInvert}>{inverted ? "Turn back" : "Invert"}</button>
-            </div>)
-    }
-    function KmToMiles() {
-        const [inverted2, setInverted2] = React.useState(false);
-        const [amount2, setAmount2] = React.useState(0);
-        const onChange2 = (event) => {
-            setAmount2(event.target.value)
-        }
-        const onInvert2 = () => {
-            reset2()
-            setInverted2((current => !current))
-        }
-        const reset2 = () => setAmount2(0)
-        return (
-            <div>
-                <div>
-                    <label htmlFor="Km">Km</label>
-                    <input disabled={inverted2 === true} onChange={onChange2} value={inverted2 ? amount2 * 1.609 : amount2} type="number" placeholder="Km" id="Km" />
-                </div>
-                <div>
-                    <label htmlFor="Miles">Miles</label>
-                    <input disabled={inverted2 === false} value={inverted2 ? amount2 : (amount2 / 1.609)} type="number" placeholder="Miles" id="Miles" />
-                </div>
-                <button onClick={reset2}>reset</button>
-                <button onClick={onInvert2}>invert</button>
-
-            </div>
+            <button style={{
+                backgroundColor: "tomato",
+                color: "white",
+                padding: "10px 20px",
+                border: 0,
+                borderRadius: 10,
+            }}>{text}</button>//text라는 props 안에 있는 Save Changes와 Continue 라는 내용을 전달받고 출력해줌
         )
     }
     function App() {
-        const [index, setIndex] = React.useState("xx")
-        const onSelect = (event) => {
-            setIndex(event.target.value)
-        }
         return (
             <div>
-                <h1>Super Converter</h1>
-                <select value={index} onChange={onSelect} >
-                    <option value="xx">Select your units</option>
-                    <option value="0">Minutes & Hours</option>
-                    <option value="1">Km & Miles</option>
-                </select>
-                <hr />
-                {index === "xx" ? "Please select your units" : null}
-                {index === "0" ? <MinutesToHours /> : null}
-                {index === "1" ? <KmToMiles /> : null}
-            </div>)
+                <Btn text="Save Changes" />
+                <Btn text="Continue" />
+            </div>//Btn이라는 Component안에 text라는 props를 전달
+        );
+
     }
     ReactDOM.render(<App />, root);
 
