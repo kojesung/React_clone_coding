@@ -7,8 +7,9 @@
 <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
 <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
 <script type="text/babel">
-    function Btn({ text, changeValue }) {
+    function Btn({ text, changeValue, fontSize }) {
         console.log(text, "was rendered")
         return (
             <button
@@ -19,25 +20,22 @@
                     padding: "10px 20px",
                     border: 0,
                     borderRadius: 10,
-                    fontSize: 16,
-                }}>{text}</button>//text라는 props 안에 있는 Save Changes와 Continue 라는 내용을 전달받고 출력해줌
+                    fontSize//객체의 속성과 값이 동일한 경우 변수인 fontSize의 값이 할당됨(단축 속성명)
+                }}>{text}</button>
         )
     }
-
-    const MemorizedBtn = React.memo(Btn);
+    Btn.propTypes = {
+        text: PropTypes.string.isRequired,
+        fontSize: PropTypes.number.isRequired//자료형이 우리가 만드는 프로그램의 의도와 다를 때를 대비해서 설정해두면 console에서 경고를 띄워줌
+    }
     function App() {
         const [value, setValue] = React.useState("Save Changes");
         const changeValue = () => setValue("Revert Changes");
         return (
             <div>
-                <MemorizedBtn text={value} changeValue={changeValue} />
-                <MemorizedBtn text="Continue" />
-            </div>//Btn이라는 Component안에 text라는 props를 전달
-            //changeValue는 eventlinstener와는 다르게 Btn의 props로 들어가는 내용임
-            //changeValue라는 props가 Btn이라는 conponent에서 onClick함수로 호출된다면 eventlistener와 같은 역할을 수행하게 됨
-            //두번째 Btn Component는 App이 rerender 되면서 자동으로 같이 rerender 되는데 이처럼 불필요한 rerender(두번째 Btn의 text값은 변경하지 않으니)
-            //를 막기 위해서 사용하는게 React.memo()임
-            //부모 요소에서 어떠한 state변화가 발생한다면 그 자식 요소들은 모두 rerender됨 => 어플리케이션이 느려지는 원인이 될 수 있음
+                <Btn text={value} fontSize={18} changeValue={changeValue} />
+                <Btn text={18} fontSize="Continue" />
+            </div>
         );
 
     }
