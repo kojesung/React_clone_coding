@@ -2,26 +2,20 @@
 import PropTypes from "prop-types";
 import styles from "./App.module.css";
 import { useState, useEffect } from "react";
-function App() {
-  const [keyword, setKeyword] = useState('');
-  const [counter, setValue] = useState(0);
-  const onClick = () => setValue((prev) => prev + 1);
-  const onChange = (event) => (setKeyword(event.target.value));
-  console.log("I run all the time")
+function Hello() {
   useEffect(() => {
-    console.log("CALL THE API")
+    console.log("created");
+    return () => console.log("destroyed")
   }, [])
-  useEffect(() => {
-    console.log("Search for", keyword)
-  }, [keyword])
-  useEffect(() => {
-    console.log("I run keyword and counter change");
-  }, [keyword, counter])
+  return <h1>Hello</h1>
+}
+function App() {
+  const [showing, setShowing] = useState(false);
+  const onClick = () => setShowing((prev) => !prev);
   return (
     <div>
-      <input value={keyword} onChange={onChange} type="text" placeholder="Search here..." />
-      <h1>{counter}</h1>
-      <button onClick={onClick}>click me</button>
+      {showing ? <Hello /> : null}
+      <button onClick={onClick}>{showing ? "hide" : "show"}</button>
     </div >
   );
 }
@@ -33,6 +27,8 @@ useEffect는 2개의 argument를 갖는데
 1. 첫번째는 우리가 딱 한번만 실행시키고 싶은 코드
 2. 두번째는 [변수]가 변화할 때마다 useEffect를 실행시키고 싶다고 알려주는 것
 useEffect내의 코드는 처음 렌더링 후에 실행됨(나중에 코드 꼬이지 않으려면 알고 있어야 됨)
+3. 함수 컴포넌트 안에 useEffect를 실행시켜주면 컴포넌트가 호출될 때 useEffect가 실행됨,
+해당 컴포넌트가 없어질 때도 호출하고 싶을 땐 function을 return 해주면 됨
 
 input태그는 값이 변할 때 onChange상태가 되고 그 상태의 event가 입력한 text를 가지고 있음(input - onChange(event.target.value))
 */
