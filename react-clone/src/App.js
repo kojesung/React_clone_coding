@@ -14,7 +14,7 @@ function App() {
       setToDo("")
     }
     setToDos(function (currentArray) {
-      const newArray = [...currentArray, toDo]
+      const newArray = [...currentArray, toDo]//상태 변화 함수는 어떤 함수에 인자로 무언가를 입력하면 현재 상태가 반환됨
       console.log(newArray)
       return newArray
     })
@@ -26,6 +26,10 @@ function App() {
         <input value={toDo} onChange={handleOnChange} type='text' placeholder="Write your to do..." />
         <button>Add to do</button>
       </form>
+      <hr />
+      <ol>
+        {toDos.reverse().map((items, index) => <li key={index}>{items}</li>)}
+      </ol>
     </div >
   );
 }
@@ -42,4 +46,9 @@ useEffect내의 코드는 처음 렌더링 후에 실행됨(나중에 코드 꼬
 함수, 컴포넌트가 없어질 때의 어떤 분석 결과를 보내고 싶을 떄 활용
 
 input태그는 값이 변할 때 onChange상태가 되고 그 상태의 event가 입력한 text를 가지고 있음(input - onChange(event.target.value))
+
+map 함수는 Array.map() 형식으로 작성하고 첫번째 인자로 배열의 내용을 조정할 수 있는 함수를 작성
+=> 만약에 인자의 항목들을 그대로 보여주고 싶다면 Array.map((items)=>items)처럼 작성해주면 됨
+두번째 인자는 map 함수가 Array의 값들을 한번씩 돌면서 해당 값의 index값을 반환해줌
+key는 고유한 값으로 사용해야하기 때문에 index값을 key로 설정해주면 좋음
 */
