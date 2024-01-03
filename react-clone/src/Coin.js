@@ -11,13 +11,14 @@ function Coin() {
     const handleOnChange = (event) => {
         setMoney(event.target.value)
     }
+    const getCoin = async () => {
+        const response = await fetch(`https://api.coinpaprika.com/v1/tickers`)
+        const json = await response.json()
+        setCoins(json)
+        setLoading(false)
+    }
     useEffect(() => {
-        fetch("https://api.coinpaprika.com/v1/tickers")
-            .then((response) => response.json())
-            .then((json) => {
-                setCoins(json)
-                setLoading(false)
-            })
+        getCoin()
     }, [])
     return (
         <div>
@@ -32,7 +33,7 @@ function Coin() {
             </select>
             <div>
                 <h2>
-                    {money ? <div>{Math.floor(money / selectedCoinPrice)}개 구매 가능</div> : null}
+                    {money && selectedCoinPrice ? <div>{Math.floor(money / selectedCoinPrice)}개 구매 가능</div> : null}
                 </h2>
             </div>
         </div >
